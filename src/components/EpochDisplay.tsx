@@ -1,5 +1,12 @@
 'use client';
 import { useEffect, useState } from 'react';
+
+type EpochRes = { epoch: number | null };
+
+function errMessage(e: unknown) {
+  return e instanceof Error ? e.message : String(e);
+}
+
 export default function EpochDisplay() {
   const [epoch, setEpoch] = useState<number | null>(null);
   const [at, setAt] = useState<Date | null>(null);
@@ -8,20 +15,22 @@ export default function EpochDisplay() {
   async function load() {
     try {
       const r = await fetch('/api/epoch', { cache: 'no-store' });
-      const j = await r.json();
+      const j: EpochRes = await r.json();
       if (!r.ok || j.epoch == null) throw new Error('unavailable');
       setEpoch(j.epoch);
       setAt(new Date());
       setErr(null);
-    } catch (e: any) {
-      setErr(e?.message ?? 'error');
+    } catch (e: unknown) {
+      setErr(errMessage(e));
     }
   }
+
   useEffect(() => {
     load();
     const id = setInterval(load, 15000);
     return () => clearInterval(id);
   }, []);
+
   return (
     <div className="mx-auto max-w-md p-8 text-center">
       <div className="text-sm text-zinc-400">Current Solana Epoch</div>
