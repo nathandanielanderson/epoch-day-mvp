@@ -34,7 +34,7 @@ export default function EpochDisplay() {
   return (
     <div className="mx-auto max-w-md p-8 text-center">
       <div className="text-sm text-zinc-400">Current Solana Epoch</div>
-      <div className="text-6xl font-semibold tracking-tight">
+      <div className="text-7xl sm:text-8xl md:text-[8rem] font-semibold tracking-tight leading-none">
         {epoch ?? '—'}
       </div>
       <div className="mt-2 text-xs text-zinc-500">
