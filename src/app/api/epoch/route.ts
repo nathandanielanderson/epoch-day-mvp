@@ -5,7 +5,7 @@ export async function GET() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ jsonrpc: "2.0", id: 1, method: "getEpochInfo" }),
         // Next.js caching hint too
-        next: { revalidate: 15 },
+        next: { revalidate: 90 },
     });
     if (!res.ok) return Response.json({ error: "rpc" }, { status: 502 });
     const data = await res.json();
